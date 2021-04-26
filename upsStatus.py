@@ -2,7 +2,7 @@ import time
 import serial
 import subprocess
 
-serPort = 'COM3'
+serPort = '/dev/upsMonitor1'
 online = False
 lastPwrOn = time.time()
 
@@ -13,7 +13,7 @@ def pwrOn(pwrOnInterval):
         if(online == True):
             lastPwrOn = time.time()
             print("Power ON")
-            subprocess.run("shutdown /a", shell=True, text=True)
+            subprocess.run("python3 /home/pi/HomelabShutdown/mainPowerOn.py standalone", shell=True, text=True)
             #Put pwrOn cmd here
             
             
@@ -27,7 +27,7 @@ def upsStatus(serPort):
         if(stat == "SHUTDOWN"):
             online = False
             print("SHUTDOWN!!!")
-            subprocess.run("shutdown /s /t 120", shell=True, text=True)
+            subprocess.run("python3 /home/pi/HomelabShutdown/mainShutdown.py noAuth", shell=True, text=True)
             input("Press ENTER to continue")
             break
         elif(stat == "OFFLINE"):
