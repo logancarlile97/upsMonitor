@@ -1,0 +1,43 @@
+import time
+import serial
+import subprocess
+
+serPort = 'COM3'
+online = False
+lastPwrOn = time.time()
+
+def pwrOn(pwrOnInterval):
+    global lastPwrOn
+    global online
+    if (time.time() - lastPwrOn > pwrOnInterval):
+        if(online == True):
+            lastPwrOn = time.time()
+            print("Power ON")
+            subprocess.run("shutdown /a", shell=True, text=True)
+            #Put pwrOn cmd here
+            
+            
+
+def upsStatus(serPort):
+    global online
+    ser = serial.Serial(serPort, 9600)
+    while(True):    
+        stat = ser.readline().decode('utf-8').rstrip()
+        ser.flush()
+        if(stat == "SHUTDOWN"):
+            online = False
+            print("SHUTDOWN!!!")
+            subprocess.run("shutdown /s /t 120", shell=True, text=True)
+            input("Press ENTER to continue")
+            break
+        elif(stat == "OFFLINE"):
+            online = False
+        elif(stat == "ONLINE"):
+            online = True
+            pwrOn(30)
+try:
+    upsStatus(serPort)
+except KeyboardInterrupt:
+    print("User Exit")
+except Exception as e:
+    print(f"ERROR!!!\n{e}")

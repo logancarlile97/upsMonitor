@@ -16,7 +16,7 @@ unsigned long beepStart = 0;
 
 //Values used for sendSerial
 unsigned long serialTime = 0;
-unsigned long serialDelay = 100;
+unsigned long serialDelay = 1000;
 
 //Timeout so green light stops blinking
 unsigned long greenTimeout = 300000; //300000 millis = 5 min
@@ -25,8 +25,8 @@ unsigned long greenTimeoutStart = 0;
 //Turn buzzer on or off
 void buzzer(bool on) 
 {
-  if(on) digitalWrite(alarm, LOW);
-  else if(!on) digitalWrite(alarm, HIGH);
+  //if(on) digitalWrite(alarm, LOW);
+  //else if(!on) digitalWrite(alarm, HIGH);
 }
 
 //Turn buzzer on then off after certain time
