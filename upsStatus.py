@@ -2,7 +2,7 @@ import time
 import serial
 import subprocess
 
-serPort = '/dev/arduino/tty-1-1.1.1' #Related to the USB port the upsMonitor is plugged into
+serPort = '/dev/arduino/tty-1-1.4.1' #Related to the USB port the upsMonitor is plugged into
 online = False
 lastPwrOn = time.time()
 
