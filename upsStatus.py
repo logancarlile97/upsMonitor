@@ -28,7 +28,7 @@ def upsStatus(serPort):
             online = False
             print("SHUTDOWN!!!")
             subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainShutdown.py noAuth", shell=True, text=True)
-            input("Press ENTER to continue")cd /home/pi/HomelabShutdown && 
+            ##input("Press ENTER to continue")
             break
         elif(stat == "OFFLINE"):
             online = False
