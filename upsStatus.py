@@ -28,13 +28,13 @@ def upsStatus(serPort):
             online = False
             print("SHUTDOWN!!!")
             subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainShutdown.py noAuth", shell=True, text=True)
-            input("Press ENTER to continue")
+            input("Press ENTER to continue")cd /home/pi/HomelabShutdown && 
             break
         elif(stat == "OFFLINE"):
             online = False
         elif(stat == "ONLINE"):
             online = True
-            pwrOn(30)
+            pwrOn(300)
 try:
     upsStatus(serPort)
 except KeyboardInterrupt:
