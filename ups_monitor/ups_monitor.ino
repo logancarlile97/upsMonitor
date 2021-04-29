@@ -34,8 +34,8 @@ void beep(unsigned long bzzLngth)
 {
   if (!beepOn) //If beep is not currently running then...  
   {
-    beepOn = true; //Say beep is currently running by setting beepOn to true
-    beepStart = millis(); //Set buzzerStart to the current time
+    //beepOn = true; //Say beep is currently running by setting beepOn to true
+    //beepStart = millis(); //Set buzzerStart to the current time
   }
   if (millis() - beepStart >= bzzLngth) //If buzzer timer has reached limit then... 
   {
