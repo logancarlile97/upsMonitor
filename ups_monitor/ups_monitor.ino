@@ -25,8 +25,8 @@ unsigned long greenTimeoutStart = 0;
 //Turn buzzer on or off
 void buzzer(bool on) 
 {
-  //if(on) digitalWrite(alarm, LOW);
-  //else if(!on) digitalWrite(alarm, HIGH);
+  if(on) digitalWrite(alarm, HIGH);
+  else if(!on) digitalWrite(alarm, LOW);
 }
 
 //Turn buzzer on then off after certain time
@@ -34,8 +34,8 @@ void beep(unsigned long bzzLngth)
 {
   if (!beepOn) //If beep is not currently running then...  
   {
-    //beepOn = true; //Say beep is currently running by setting beepOn to true
-    //beepStart = millis(); //Set buzzerStart to the current time
+    beepOn = true; //Say beep is currently running by setting beepOn to true
+    beepStart = millis(); //Set buzzerStart to the current time
   }
   if (millis() - beepStart >= bzzLngth) //If buzzer timer has reached limit then... 
   {
@@ -66,10 +66,10 @@ void online()
  
     sendSerial("ONLINE"); //Send ONLINE over serial
     
-    if (millis() - greenTimeoutStart >= greenTimeout) digitalWrite(green, HIGH); //If greenTimeout is reached turn green led off
-    else digitalWrite(green, LOW); //If greenTimeout is not reached turn green led on    
-    digitalWrite(yellow, HIGH); //Turn yellow light off 
-    digitalWrite(red, HIGH); //Turn red light off
+    if (millis() - greenTimeoutStart >= greenTimeout) digitalWrite(green, LOW); //If greenTimeout is reached turn green led off
+    else digitalWrite(green, HIGH); //If greenTimeout is not reached turn green led on    
+    digitalWrite(yellow, LOW); //Turn yellow light off 
+    digitalWrite(red, LOW); //Turn red light off
   }
 }
 
@@ -88,9 +88,9 @@ void offline()
       sendSerial("OFFLINE"); //Send OFFLINE over serial
       
       //Turn yellow led on
-      digitalWrite(green, HIGH); //Turn green light off
-      digitalWrite(yellow, LOW); //Turn yellow light on
-      digitalWrite(red, HIGH); //Turn red light off  
+      digitalWrite(green, LOW); //Turn green light off
+      digitalWrite(yellow, HIGH); //Turn yellow light on
+      digitalWrite(red, LOW); //Turn red light off  
     }
     //Increment offLnCnt
     if(millis() - timeLastCnt >= 1000)
@@ -112,9 +112,9 @@ void Shutdown()
     
     sendSerial("SHUTDOWN");//Send SHUTDOWN over serial
   
-    digitalWrite(green, HIGH); //Turn green light off
-    digitalWrite(yellow, HIGH); //Turn yellow light off
-    digitalWrite(red, LOW); //Turn red light on
+    digitalWrite(green, LOW); //Turn green light off
+    digitalWrite(yellow, LOW); //Turn yellow light off
+    digitalWrite(red, HIGH); //Turn red light on
   }
 }
 
@@ -141,10 +141,10 @@ void setup() {
   
   //Set output pins to proper initial output
   digitalWrite(LED_BUILTIN, LOW);
-  digitalWrite(green, HIGH);
-  digitalWrite(yellow, HIGH);
-  digitalWrite(red, HIGH);
-  digitalWrite(alarm, HIGH);
+  digitalWrite(green, LOW);
+  digitalWrite(yellow, LOW);
+  digitalWrite(red, LOW);
+  digitalWrite(alarm, LOW);
   
   //Enable serial coms
   Serial.begin(9600);
