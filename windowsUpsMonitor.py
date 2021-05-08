@@ -45,7 +45,13 @@ def upsStatus(serPort):
                     subprocess.run("shutdown /s /t 60", shell=True, text=True)
                     ##input("Press ENTER to continue")
                     return "shutdown"
-                    
+                elif(stat == "OFFLINE"):  
+                    if(crntOffline == False):
+                        print("power outage detected")
+                        subprocess.run("msg * Warning!!! Power Outage Detected!!!", shell=True, text=True)
+                        crntOffline = True
+                else:
+                    crntOffline = False
 try:
     while(True):
         upsReturn = upsStatus(findUPSMonitor())
