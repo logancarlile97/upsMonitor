@@ -2,48 +2,55 @@ import time
 import serial
 import subprocess
 
-serPort = '/dev/arduino/tty-1-1.4.1' #Related to the USB port the upsMonitor is plugged into
-online = False
-lastPwrOn = time.time()
+def findUPSMonitor():
+    testCount = 0
 
-def pwrOn(pwrOnInterval):
-    global lastPwrOn
-    global online
-    if (time.time() - lastPwrOn > pwrOnInterval):
-        if(online == True):
-            lastPwrOn = time.time()
-            print("Power ON")
-            subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainPowerOn.py standalone", shell=True, text=True)
-            #Put pwrOn cmd here
+    while (True):
+        try:
+            testCount += 1
+
+            if(testCount == 200):
+                print("Could not find ups monitor")
+                return "failed"
+
             
+            serTestPort = "COM" + str(testCount) 
+            serTest = serial.Serial(serTestPort, 9600, timeout=3)
+            commandGathered = serTest.readline().decode('utf-8').rstrip()
+
+            print("Testing " + serTestPort)
             
+            if (commandGathered == "UPS-Monitor"):
+                print("Found UPS monitor on serial port " + serTestPort)
+                return serTestPort
+
+            else:
+                print(serTestPort + " did not work")
+
+        except Exception as e:
+            print("fail")
+            print(e)
 
 def upsStatus(serPort):
     global online
-    ser = serial.Serial(serPort, 9600)
-    while(True):    
-        stat = ser.readline().decode('utf-8').rstrip()
-        ser.flush()
-        if(stat == "SHUTDOWN"):
-            online = False
-            print("SHUTDOWN!!!")
-            #time.sleep(30)
-            subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainShutdown.py noAuth", shell=True, text=True)
-            ##input("Press ENTER to continue")
-            break
-        elif(stat == "OFFLINE"):
-            online = False
-        elif(stat == "ONLINE"):
-            online = True
-            pwrOn(300)
+    if (serPort == "failed"):
+        print("Could not find UPS monitor")
+    else:
+        ser = serial.Serial(serPort, 9600)
+        while(True):    
+            stat = ser.readline().decode('utf-8').rstrip()
+            ser.flush()
+            if(stat == "SHUTDOWN"):
+                online = False
+                print("SHUTDOWN!!!")
+                #time.sleep(30)
+                subprocess.run("shutdown /s /t 60", shell=True, text=True)
+                ##input("Press ENTER to continue")
+                break
+    
 try:
-    upsStatus(serPort)
+    upsStatus(findUPSMonitor())
 except KeyboardInterrupt:
     print("User Exit")
 except Exception as e:
     print(f"ERROR!!!\n{e}")
-def findUPSMonitor():
-  try:
-    serPort = '/dev/arduino/tty-1-1.4.1' #Related to the USB port the upsMonitor is plugged into
-    online = False
-    lastPwrOn = time.time()

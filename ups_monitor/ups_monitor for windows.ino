@@ -7,7 +7,7 @@
 //Keeps track of how mant times the pwrIndicator indicates offline status
 //  Incriments once every second
 unsigned int offLnCnt = 0;
-unsigned int maxOffLnCnt = 20;
+unsigned int maxOffLnCnt = 300;
 unsigned long timeLastCnt = 0;
 
 
@@ -148,7 +148,8 @@ void setup() {
   
   //Enable serial coms
   Serial.begin(9600);
-
+  delay(1000);
+  Serial.println("UPS-Monitor");
 }
 
 void loop() {
