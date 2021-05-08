@@ -32,24 +32,26 @@ def findUPSMonitor():
             print(e)
 
 def upsStatus(serPort):
-    global online
-    if (serPort == "failed"):
-        print("Could not find UPS monitor")
-    else:
-        ser = serial.Serial(serPort, 9600)
-        while(True):    
-            stat = ser.readline().decode('utf-8').rstrip()
-            ser.flush()
-            if(stat == "SHUTDOWN"):
-                online = False
-                print("SHUTDOWN!!!")
-                #time.sleep(30)
-                subprocess.run("shutdown /s /t 60", shell=True, text=True)
-                ##input("Press ENTER to continue")
-                break
-    
+        if (serPort == "failed"):
+            print("Could not find UPS monitor")
+        else:
+            ser = serial.Serial(serPort, 9600)
+            while(True):    
+                stat = ser.readline().decode('utf-8').rstrip()
+                ser.flush()
+                if(stat == "SHUTDOWN"):
+                    print("SHUTDOWN!!!")
+                    #time.sleep(30)
+                    subprocess.run("shutdown /s /t 60", shell=True, text=True)
+                    ##input("Press ENTER to continue")
+                    return "shutdown"
+                    
 try:
-    upsStatus(findUPSMonitor())
+    while(True):
+        upsReturn = upsStatus(findUPSMonitor())
+        time.sleep(3)
+        if(upsReturn == "shutdown"):
+            break
 except KeyboardInterrupt:
     print("User Exit")
 except Exception as e:
