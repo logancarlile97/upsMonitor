@@ -2,6 +2,8 @@ import time
 import serial
 import subprocess
 
+upsMonitorFailed = False #Represents program failing to discover the UPS Monitor, used for some notifications
+
 def findUPSMonitor():
     testCount = 0
 
@@ -32,10 +34,16 @@ def findUPSMonitor():
             print(e)
 
 def upsStatus(serPort):
+        global upsMonitorFailed
+        
         if (serPort == "failed"):
             print("Could not find UPS monitor")
+            if (upsMonitorFailed == False):
+                subprocess.run("msg * Could not discover UPS Monitor", shell=True, text=True)
+            upsMonitorFailed = True
         else:
             ser = serial.Serial(serPort, 9600)
+            upsMonitorFailed = False
             while(True):    
                 stat = ser.readline().decode('utf-8').rstrip()
                 ser.flush()
@@ -48,9 +56,11 @@ def upsStatus(serPort):
                 elif(stat == "OFFLINE"):  
                     if(crntOffline == False):
                         print("power outage detected")
-                        subprocess.run("msg * Warning!!! Power Outage Detected!!!", shell=True, text=True)
+                        subprocess.run("msg * UPS MONITOR: Warning!!! Power Outage Detected!!!", shell=True, text=True)
                         crntOffline = True
                 else:
+                    if(stat == "ONLINE" and crntOffline == True):
+                        subprocess.run("msg * UPS MONITOR: Power has returned", shell=True, text=True)
                     crntOffline = False
 
 def upsMonitorRun():
