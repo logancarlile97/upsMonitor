@@ -42,7 +42,7 @@ def upsStatus(serPort):
                 if(stat == "SHUTDOWN"):
                     print("SHUTDOWN!!!")
                     #time.sleep(30)
-                    subprocess.run("shutdown /s /t 60", shell=True, text=True)
+                    subprocess.run("shutdown /s /t 0", shell=True, text=True)
                     ##input("Press ENTER to continue")
                     return "shutdown"
                 elif(stat == "OFFLINE"):  
@@ -52,13 +52,20 @@ def upsStatus(serPort):
                         crntOffline = True
                 else:
                     crntOffline = False
-try:
-    while(True):
-        upsReturn = upsStatus(findUPSMonitor())
-        time.sleep(3)
-        if(upsReturn == "shutdown"):
-            break
-except KeyboardInterrupt:
-    print("User Exit")
-except Exception as e:
-    print(f"ERROR!!!\n{e}")
+
+def upsMonitorRun():
+    try:
+        while(True):
+            upsReturn = upsStatus(findUPSMonitor())
+            time.sleep(3)
+            if(upsReturn == "shutdown"):
+                break
+    except KeyboardInterrupt:
+        print("User Exit")
+    except Exception as e:
+        print(f"ERROR!!!\n{e}")
+        time.sleep(5)
+        upsMonitorRun()
+        
+
+upsMonitorRun()

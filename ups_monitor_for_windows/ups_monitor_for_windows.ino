@@ -7,7 +7,7 @@
 //Keeps track of how mant times the pwrIndicator indicates offline status
 //  Incriments once every second
 unsigned int offLnCnt = 0;
-unsigned int maxOffLnCnt = 300;
+unsigned int maxOffLnCnt = 180;
 unsigned long timeLastCnt = 0;
 
 
