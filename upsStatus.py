@@ -28,7 +28,7 @@ def upsStatus(serPort):
         ser.reset_output_buffer()
         ser.reset_input_buffer()
         time.sleep(1)
-        ser.flush()
+        #ser.flush()
         while(True):    
             stat = ser.readline().decode('utf-8').rstrip()
             #ser.flush()
