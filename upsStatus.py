@@ -20,12 +20,14 @@ def pwrOn(pwrOnInterval):
 
 def upsStatus(serPort):
     try:
-        count = 0
+        #count = 0 #For debugging
+        
         global online
         ser = serial.Serial(serPort, 9600)
         ser.flush()
         while(True):    
             stat = ser.readline().decode('utf-8').rstrip()
+            print(stat)
             if(stat == "SHUTDOWN"):
                 online = False
                 print("SHUTDOWN!!!")
@@ -35,14 +37,14 @@ def upsStatus(serPort):
                 break
             elif(stat == "OFFLINE"):
                 online = False
-                #print("UPS Offline")
             elif(stat == "ONLINE"):
                 online = True
-                #print("UPS Online")
                 pwrOn(300)
-            count+=1
-            print(str(count))
             time.sleep(0.5)
+            
+            #count+=1 #For debugging 
+            #print(str(count)) #For debugging
+            
     except Exception as e:
         print(f"ERROR!!!\n{e}")
         print('Attempting restart in 3 seconds')
