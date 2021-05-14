@@ -35,12 +35,13 @@ def upsStatus(serPort):
                 break
             elif(stat == "OFFLINE"):
                 online = False
-                print("UPS Offline")
+                #print("UPS Offline")
             elif(stat == "ONLINE"):
                 online = True
-                print("UPS Online")
+                #print("UPS Online")
                 pwrOn(300)
             count+=1
+            print(str(count))
     except Exception as e:
         print(f"ERROR!!!\n{e}")
         print('Attempting restart in 3 seconds')
