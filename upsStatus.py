@@ -55,8 +55,10 @@ def upsStatus(serPort):
         print('Attempting restart in 3 seconds')
         time.sleep(3)
         upsStatus(serPort)
+    except KeyboardInterrupt:
+        print("User Exit")    
+        ser.close()
+        ser.__del__()
 
-try:
-    upsStatus(serPort)
-except KeyboardInterrupt:
-    print("User Exit")
+
+upsStatus(serPort)
