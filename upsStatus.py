@@ -23,9 +23,9 @@ def upsStatus(serPort):
         count = 0
         global online
         ser = serial.Serial(serPort, 9600)
+        ser.flush()
         while(True):    
             stat = ser.readline().decode('utf-8').rstrip()
-            ser.flush()
             if(stat == "SHUTDOWN"):
                 online = False
                 print("SHUTDOWN!!!")
@@ -42,6 +42,7 @@ def upsStatus(serPort):
                 pwrOn(300)
             count+=1
             print(str(count))
+            time.sleep(0.5)
     except Exception as e:
         print(f"ERROR!!!\n{e}")
         print('Attempting restart in 3 seconds')
