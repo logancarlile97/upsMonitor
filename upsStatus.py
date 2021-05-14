@@ -34,8 +34,10 @@ def upsStatus(serPort):
                 break
             elif(stat == "OFFLINE"):
                 online = False
+                print("UPS Offline")
             elif(stat == "ONLINE"):
                 online = True
+                print("UPS Online")
                 pwrOn(300)
     except Exception as e:
         print(f"ERROR!!!\n{e}")
