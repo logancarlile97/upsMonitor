@@ -31,7 +31,7 @@ def upsStatus(serPort):
         ser.flush()
         while(True):    
             stat = ser.readline().decode('utf-8').rstrip()
-            ser.flush()
+            #ser.flush()
             print(stat)
             if(stat == "SHUTDOWN"):
                 online = False
