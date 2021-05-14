@@ -19,28 +19,31 @@ def pwrOn(pwrOnInterval):
             
 
 def upsStatus(serPort):
-    global online
-    ser = serial.Serial(serPort, 9600)
-    while(True):    
-        stat = ser.readline().decode('utf-8').rstrip()
-        ser.flush()
-        if(stat == "SHUTDOWN"):
-            online = False
-            print("SHUTDOWN!!!")
-            #time.sleep(30)
-            subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainShutdown.py noAuth", shell=True, text=True)
-            ##input("Press ENTER to continue")
-            break
-        elif(stat == "OFFLINE"):
-            online = False
-        elif(stat == "ONLINE"):
-            online = True
-            pwrOn(300)
+    try:
+        global online
+        ser = serial.Serial(serPort, 9600)
+        while(True):    
+            stat = ser.readline().decode('utf-8').rstrip()
+            ser.flush()
+            if(stat == "SHUTDOWN"):
+                online = False
+                print("SHUTDOWN!!!")
+                #time.sleep(30)
+                subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainShutdown.py noAuth", shell=True, text=True)
+                ##input("Press ENTER to continue")
+                break
+            elif(stat == "OFFLINE"):
+                online = False
+            elif(stat == "ONLINE"):
+                online = True
+                pwrOn(300)
+    except Exception as e:
+        print(f"ERROR!!!\n{e}")
+        print('Attempting restart in 3 seconds')
+        time.sleep(3)
+        upsStatus(serPort)
+
 try:
     upsStatus(serPort)
 except KeyboardInterrupt:
     print("User Exit")
-except Exception as e:
-    print(f"ERROR!!!\n{e}")
-    print('Attempting restart')
-    upsStatus(serPort)
