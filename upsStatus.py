@@ -20,6 +20,7 @@ def pwrOn(pwrOnInterval):
 
 def upsStatus(serPort):
     try:
+        count = 0
         global online
         ser = serial.Serial(serPort, 9600)
         while(True):    
@@ -39,6 +40,7 @@ def upsStatus(serPort):
                 online = True
                 print("UPS Online")
                 pwrOn(300)
+            count+=1
     except Exception as e:
         print(f"ERROR!!!\n{e}")
         print('Attempting restart in 3 seconds')
