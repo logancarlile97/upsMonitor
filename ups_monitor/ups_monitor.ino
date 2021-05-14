@@ -149,6 +149,7 @@ void setup() {
   //Enable serial coms
   Serial.begin(9600);
 
+  delay(500);
 }
 
 void loop() {
