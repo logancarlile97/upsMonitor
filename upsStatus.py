@@ -24,7 +24,8 @@ def upsStatus(serPort):
         
         global online
         ser = serial.Serial(serPort, 9600, timeout=None)
-        #ser.flush()
+        ser.reset_input_buffer()
+        #time.sleep(1)
         while(True):    
             stat = ser.readline().decode('utf-8').rstrip()
             #ser.flush()
