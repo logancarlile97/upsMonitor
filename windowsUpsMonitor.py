@@ -43,6 +43,8 @@ def upsStatus(serPort):
             upsMonitorFailed = True
         else:
             ser = serial.Serial(serPort, 9600)
+            if (upsMonitorFailed == True):
+                subprocess.run(f"msg * UPS Monitor Discovered on {serPort}", shell=True, text=True)
             upsMonitorFailed = False
             while(True):    
                 stat = ser.readline().decode('utf-8').rstrip()
@@ -64,6 +66,7 @@ def upsStatus(serPort):
                     crntOffline = False
 
 def upsMonitorRun():
+    time.sleep(10)
     try:
         while(True):
             upsReturn = upsStatus(findUPSMonitor())
