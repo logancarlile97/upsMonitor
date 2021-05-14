@@ -58,7 +58,6 @@ def upsStatus(serPort):
     except KeyboardInterrupt:
         print("User Exit")    
         ser.close()
-        ser.__del__()
 
 
 upsStatus(serPort)
