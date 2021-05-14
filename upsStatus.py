@@ -24,10 +24,10 @@ def upsStatus(serPort):
         
         global online
         ser = serial.Serial(serPort, 9600)
-        ser.flush()
+        #ser.flush()
         while(True):    
             stat = ser.readline().decode('utf-8').rstrip()
-            ser.flush()
+            #ser.flush()
             print(stat)
             if(stat == "SHUTDOWN"):
                 online = False
