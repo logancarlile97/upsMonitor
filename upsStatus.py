@@ -23,6 +23,7 @@ def upsStatus(serPort):
         #count = 0 #For debugging
         
         global online
+        global lastPwrOn
         ser = serial.Serial(serPort, 9600, timeout=None)
         time.sleep(1)
         ser.reset_output_buffer()
@@ -43,6 +44,7 @@ def upsStatus(serPort):
                 break
             elif(stat == "OFFLINE"):
                 online = False
+                lastPwrOn = time.time()
             elif(stat == "ONLINE"):
                 online = True
                 pwrOn(300)
