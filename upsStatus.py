@@ -48,7 +48,7 @@ def upsStatus(serPort):
             elif(stat == "ONLINE"):
                 online = True
                 pwrOn(360)
-            time.sleep(0.5)
+            time.sleep(0.9)
             
             #count+=1 #For debugging 
             #print(str(count)) #For debugging
