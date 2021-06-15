@@ -11,9 +11,9 @@ def pwrOn(pwrOnInterval):
     global online
     if (time.time() - lastPwrOn > pwrOnInterval):
         if(online == True):
-            lastPwrOn = time.time()
             print("Power ON")
             subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainPowerOn.py standalone", shell=True, text=True)
+            lastPwrOn = time.time()
             #Put pwrOn cmd here
             
             
@@ -57,6 +57,7 @@ def upsStatus(serPort):
         print(f"ERROR!!!\n{e}")
         print('Attempting restart in 3 seconds')
         time.sleep(3)
+        lastPwrOn = time.time()
         upsStatus(serPort)
     except KeyboardInterrupt:
         print("User Exit")    
