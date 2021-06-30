@@ -66,7 +66,6 @@ def upsStatus(serPort):
                     crntOffline = False
 
 def upsMonitorRun():
-    time.sleep(10)
     try:
         while(True):
             upsReturn = upsStatus(findUPSMonitor())

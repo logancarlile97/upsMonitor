@@ -12,9 +12,9 @@ def pwrOn(pwrOnInterval):
     if (time.time() - lastPwrOn > pwrOnInterval):
         if(online == True):
             print("Power ON")
-            subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainPowerOn.py standalone", shell=True, text=True)
-            lastPwrOn = time.time()
             #Put pwrOn cmd here
+            subprocess.run("/etc/hlpc/HomelabPowerController powerOn", shell=True, text=True)
+            lastPwrOn = time.time()
             
             
 
@@ -39,7 +39,7 @@ def upsStatus(serPort):
                 online = False
                 print("SHUTDOWN!!!")
                 #time.sleep(30)
-                subprocess.run("cd /home/pi/HomelabShutdown && python3 ./mainShutdown.py noAuth", shell=True, text=True)
+                subprocess.run("/etc/hlpc/HomelabPowerController shutdown", shell=True, text=True)
                 ##input("Press ENTER to continue")
                 break
             elif(stat == "OFFLINE"):
